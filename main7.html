@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Health Connect - SOS System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-red: #dc2626;
+            --secondary-red: #ef4444;
+            --accent-orange: #f59e0b;
+            --success-green: #10b981;
+            --warning-orange: #f59e0b;
+            --text-white: #ffffff;
+            --text-dark: #1f2937;
+            --bg-light: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.15);
+            --emergency-gradient: linear-gradient(135deg, #dc2626 0%, #ef4444 50%, #f59e0b 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated emergency background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(239, 68, 68, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(220, 38, 38, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+            animation: emergencyPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes emergencyPulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        /* Emergency alert particles */
+        .emergency-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .emergency-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            animation: emergencyFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes emergencyFloat {
+            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.7; }
+            50% { transform: translateY(-150px) scale(1.2); opacity: 1; }
+        }
+
+        header {
+            background: rgba(220, 38, 38, 0.95);
+            backdrop-filter: blur(20px);
+            color: var(--text-white);
+            padding: 20px 30px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            animation: emergencySlideDown 0.8s ease-out;
+        }
+
+        @keyframes emergencySlideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .emergency-icon {
+            font-size: 32px;
+            animation: emergencyBlink 1s infinite;
+        }
+
+        @keyframes emergencyBlink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .sos-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-hover);
+            margin-bottom: 30px;
+            border: 2px solid rgba(220, 38, 38, 0.3);
+            text-align: center;
+        }
+
+        .sos-button {
+            background: var(--emergency-gradient);
+            color: var(--text-white);
+            border: none;
+            padding: 20px 40px;
+            font-size: 24px;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 30px rgba(220, 38, 38, 0.3);
+            animation: sosButtonPulse 2s infinite;
+            margin: 20px 0;
+        }
+
+        @keyframes sosButtonPulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 8px 30px rgba(220, 38, 38, 0.3);
+            }
+            50% { 
+                transform: scale(1.05);
+                box-shadow: 0 12px 40px rgba(220, 38, 38, 0.5);
+            }
+        }
+
+        .sos-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 50px rgba(220, 38, 38, 0.6);
+        }
+
+        .emergency-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .emergency-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .emergency-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary-red);
+            margin-bottom: 15px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .doctor-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin: 15px 0;
+        }
+
+        .doctor-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin: 5px 0;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid var(--success-green);
+        }
+
+        .doctor-offline {
+            background: rgba(220, 38, 38, 0.1);
+            border-left-color: var(--primary-red);
+        }
+
+        .call-btn, .ambulance-btn, .route-btn {
+            background: var(--success-green);
+            color: var(--text-white);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .ambulance-btn {
+            background: var(--warning-orange);
+        }
+
+        .route-btn {
+            background: var(--primary-red);
+        }
+
+        .call-btn:hover, .ambulance-btn:hover, .route-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .condition-form {
+            margin: 20px 0;
+        }
+
+        .form-group {
+            margin: 15px 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-red);
+        }
+
+        .map-container {
+            height: 300px;
+            background: #e5e7eb;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            font-size: 16px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-placeholder {
+            text-align: center;
+        }
+
+        .traffic-info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .traffic-light {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .traffic-green { background: var(--success-green); }
+        .traffic-yellow { background: var(--warning-orange); }
+        .traffic-red { background: var(--primary-red); }
+
+        .ambulance-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .ambulance-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin: 8px 0;
+            background: rgba(245, 158, 11, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid var(--warning-orange);
+        }
+
+        .hospital-name {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .distance {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .emergency-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--emergency-gradient);
+            color: var(--text-white);
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-hover);
+            animation: statusBlink 2s infinite;
+            z-index: 1000;
+            display: none;
+        }
+
+        @keyframes statusBlink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.7; }
+        }
+
+        .emergency-contact {
+            background: rgba(220, 38, 38, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid rgba(220, 38, 38, 0.3);
+        }
+
+        .contact-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(220, 38, 38, 0.2);
+        }
+
+        .contact-item:last-child {
+            border-bottom: none;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .emergency-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sos-button {
+                font-size: 20px;
+                padding: 15px 30px;
+            }
+            
+            .main-content {
+                padding: 0 15px;
+            }
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--primary-red);
+            border: 2px solid var(--primary-red);
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-button:hover {
+            background: var(--primary-red);
+            color: var(--text-white);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Emergency Particles -->
+    <div class="emergency-particles">
+        <div class="emergency-particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="emergency-particle" style="left: 20%; animation-delay: 0.5s;"></div>
+        <div class="emergency-particle" style="left: 30%; animation-delay: 1s;"></div>
+        <div clasn s="emergency-particle" style="left: 40%; animation-delay: 1.5s;"></div>
+        <div class="emergency-particle" style="left: 50%; animation-delay: 2s;"></div>
+        <div class="emergency-particle" style="left: 60%; animation-delay: 2.5s;"></div>
+        <div class="emergency-particle" style="left: 70%; animation-delay: 3s;"></div>
+        <div class="emergency-particle" style="left: 80%; animation-delay: 3.5s;"></div>
+        <div class="emergency-particle" style="left: 90%; animation-delay: 4s;"></div>
+    </div>
+
+    <a href="index.html" target="_blank" class="back-button" onclick="history.back()">← Back to Main</a>
+
+    <div class="emergency-status" id="emergencyStatus">
+         Emergency Mode Active
+    </div>
+
+    <header>
+        <div class="header-content">
+            <span class="emergency-icon"></span>
+            <span>Emergency Health Connect</span>
+            <span class="emergency-icon"></span>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <!-- SOS Section -->
+        <div class="sos-section">
+            <h2 style="color: var(--primary-red); margin-bottom: 20px; font-family: 'Poppins', sans-serif;"> Emergency SOS System</h2>
+            <p style="margin-bottom: 20px; font-size: 16px;">Press the SOS button to immediately contact available emergency doctors</p>
+            <button class="sos-button" onclick="activateEmergencySOS()">
+                 ACTIVATE SOS
+            </button>
+            
+            <!-- Emergency Condition Form -->
+            <div class="condition-form">
+                <h3 style="color: var(--text-dark); margin-bottom: 15px;">Patient Condition Details</h3>
+                <div class="form-group">
+                    <label>Emergency Type:</label>
+                    <select id="emergencyType">
+                        <option value="">Select emergency type</option>
+                        <option value="cardiac">Cardiac Emergency</option>
+                        <option value="respiratory">Breathing Problems</option>
+                        <option value="trauma">Trauma/Accident</option>
+                        <option value="stroke">Suspected Stroke</option>
+                        <option value="seizure">Seizure</option>
+                        <option value="poisoning">Poisoning</option>
+                        <option value="bleeding">Severe Bleeding</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Patient Age:</label>
+                    <input type="number" id="patientAge" placeholder="Enter patient age">
+                </div>
+                
+                <div class="form-group">
+                    <label>Symptoms Description:</label>
+                    <textarea id="symptoms" rows="4" placeholder="Describe current symptoms and condition..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Consciousness Level:</label>
+                    <select id="consciousness">
+                        <option value="">Select consciousness level</option>
+                        <option value="alert">Alert and Responsive</option>
+                        <option value="confused">Confused</option>
+                        <option value="drowsy">Drowsy</option>
+                        <option value="unconscious">Unconscious</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="emergency-grid">
+            <!-- Available Emergency Doctors -->
+            <div class="emergency-card">
+                <div class="card-title"> Emergency Doctors Available</div>
+                <div class="doctor-list">
+                    <div class="doctor-item">
+                        <div>
+                            <strong>Dr. Emergency Singh</strong><br>
+                            <small>Emergency Medicine</small>
+                        </div>
+                        <button class="call-btn" onclick="callDoctor('Dr. Emergency Singh')"> Call</button>
+                    </div>
+                    
+                    <div class="doctor-item">
+                        <div>
+                            <strong>Dr. Critical Kaur</strong><br>
+                            <small>Critical Care</small>
+                        </div>
+                        <button class="call-btn" onclick="callDoctor('Dr. Critical Kaur')"> Call</button>
+                    </div>
+                    
+                    <div class="doctor-item">
+                        <div>
+                            <strong>Dr. Trauma Sharma</strong><br>
+                            <small>Trauma Surgery</small>
+                        </div>
+                        <button class="call-btn" onclick="callDoctor('Dr. Trauma Sharma')"> Call</button>
+                    </div>
+                    
+                    <div class="doctor-item doctor-offline">
+                        <div>
+                            <strong>Dr. Cardiac Verma</strong><br>
+                            <small>Cardiology (Offline)</small>
+                        </div>
+                        <button class="call-btn" disabled style="background: #9ca3af;">Offline</button>
+                    </div>
+                </div>
+
+                </div>
+            </div>
+
+            <!-- Ambulance Booking -->
+            <div class="emergency-card">
+                <div class="card-title"> Book Emergency Ambulance</div>
+                <p style="margin-bottom: 15px; color: #6b7280;">No doctors available? Book nearest ambulance immediately</p>
+                
+                <div class="ambulance-list">
+                    <div class="ambulance-item">
+                        <div>
+                            <div class="hospital-name">City Hospital</div>
+                            <div class="distance"> 2.3 km away • ETA 8 min</div>
+                        </div>
+                        <button class="ambulance-btn" onclick="bookAmbulance('City Hospital')"> Book</button>
+                    </div>
+                    
+                    <div class="ambulance-item">
